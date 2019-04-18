@@ -2,9 +2,9 @@
 
 zpm load sindresorhus/pretty-time-zsh 2>/dev/null
 
-PR_EXEC_TIME_PREFIX="${PR_EXEC_TIME_PREFIX=" "}"
-PR_EXEC_TIME_SUFFIX="${PR_EXEC_TIME_SUFFIX=""}"
-PR_EXEC_TIME_ELAPSED="${PR_EXEC_TIME_ELAPSED=2}"
+PR_EXEC_TIME_PREFIX="${PR_EXEC_TIME_PREFIX:-" "}"
+PR_EXEC_TIME_SUFFIX="${PR_EXEC_TIME_SUFFIX:-""}"
+PR_EXEC_TIME_ELAPSED="${PR_EXEC_TIME_ELAPSED:-5}"
 
 
 _pr_exec_time() {
@@ -16,7 +16,7 @@ _pr_exec_time() {
       if [[ $CLICOLOR = 1 ]]; then
         pr_exec_time="$PR_EXEC_TIME_PREFIX%{$fg_bold[yellow]%}$(pretty-time $pr_time_spend)""%{$reset_color%}$PR_EXEC_TIME_SUFFIX"
       else
-        pr_exec_time="$PR_EXEC_TIME_PREFIX$pr_time_spend"s"$PR_EXEC_TIME_SUFFIX"
+        pr_exec_time="$PR_EXEC_TIME_PREFIX$(pretty-time $pr_time_spend)"s"$PR_EXEC_TIME_SUFFIX"
       fi
     else
       pr_exec_time=''
