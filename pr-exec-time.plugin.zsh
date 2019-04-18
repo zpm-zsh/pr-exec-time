@@ -1,11 +1,12 @@
 #!/usr/bin/env zsh
 
-zpm load sindresorhus/pretty-time-zsh 2>/dev/null
+DEPENDENCES_ZSH+=( sindresorhus/pretty-time-zsh )
 
 PR_EXEC_TIME_PREFIX="${PR_EXEC_TIME_PREFIX:-" "}"
 PR_EXEC_TIME_SUFFIX="${PR_EXEC_TIME_SUFFIX:-""}"
 PR_EXEC_TIME_ELAPSED="${PR_EXEC_TIME_ELAPSED:-5}"
 
+which zpm >/dev/null && zpm load sindresorhus/pretty-time-zsh
 
 _pr_exec_time() {
   
