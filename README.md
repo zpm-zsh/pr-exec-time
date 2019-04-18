@@ -12,6 +12,10 @@ This plugin made to be fast. It runs in background and update information only i
 
 ## Installation
 
+### This plugin depends on [pretty-time-zsh](https://github.com/sindresorhus/pretty-time-zsh)
+
+If you don't use [zpm](https://github.com/zpm-zsh/zpm), install it manually and activate it before this plugin. 
+
 ### If you use [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
 
 * Clone this repository into `~/.oh-my-zsh/custom/plugins`
