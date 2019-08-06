@@ -17,9 +17,9 @@ _pr_exec_time() {
     if [[ $pr_time_spend -ge $PR_EXEC_TIME_ELAPSED ]]; then
       
       if [[ $CLICOLOR = 1 ]]; then
-        pr_exec_time="$PR_EXEC_TIME_PREFIX%{$c[yellow]$c_bold%}$(pretty-time $pr_time_spend)""%{$c_reset%}$PR_EXEC_TIME_SUFFIX"
+        pr_exec_time="$PR_EXEC_TIME_PREFIX%{$c[yellow]$c_bold%}$(pretty-time $pr_time_spend)%{$c_reset%}$PR_EXEC_TIME_SUFFIX"
       else
-        pr_exec_time="$PR_EXEC_TIME_PREFIX$(pretty-time $pr_time_spend)"s"$PR_EXEC_TIME_SUFFIX"
+        pr_exec_time="$PR_EXEC_TIME_PREFIX$(pretty-time $pr_time_spend)$PR_EXEC_TIME_SUFFIX"
       fi
     else
       pr_exec_time=''
