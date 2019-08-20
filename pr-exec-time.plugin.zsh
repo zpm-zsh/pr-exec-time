@@ -7,7 +7,7 @@ PR_EXEC_TIME_SUFFIX="${PR_EXEC_TIME_SUFFIX:-""}"
 PR_EXEC_TIME_ELAPSED="${PR_EXEC_TIME_ELAPSED:-5}"
 
 if command -v zpm >/dev/null; then
-  zpm sindresorhus/pretty-time-zsh,bin-only: zpm-zsh/colors
+  zpm sindresorhus/pretty-time-zsh,bin-only:/ zpm-zsh/colors
 fi
 
 _pr_exec_time() {
