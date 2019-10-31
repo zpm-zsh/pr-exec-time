@@ -11,7 +11,7 @@ export PR_EXEC_TIME_IGNORE=(
 )
 
 if command -v zpm >/dev/null; then
-  zpm sindresorhus/pretty-time-zsh,bin-only:/ zpm-zsh/colors
+  zpm sindresorhus/pretty-time-zsh,apply:path,path:/ zpm-zsh/colors
 fi
 
 function _pr_exec_time_ignored(){
