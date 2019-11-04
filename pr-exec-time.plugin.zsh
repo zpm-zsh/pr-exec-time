@@ -6,11 +6,13 @@ PR_EXEC_TIME_PREFIX="${PR_EXEC_TIME_PREFIX:-" "}"
 PR_EXEC_TIME_SUFFIX="${PR_EXEC_TIME_SUFFIX:-""}"
 PR_EXEC_TIME_ELAPSED="${PR_EXEC_TIME_ELAPSED:-5}"
 PR_EXEC_TIME_ELAPSED_NOTIFY="${PR_EXEC_TIME_ELAPSED_NOTIFY:-10}"
-export PR_EXEC_TIME_IGNORE=(
-  "vim" "nvim" "less" "more" "man" "tig" "watch" "git commit" "top" "htop" "ssh" "nano"
+PR_EXEC_TIME_IGNORE=(
+  "vim" "nvim" "less" "more" "man"
+  "tig""watch" "git commit" 
+  "top" "htop" "ssh" "nano"
 )
 
-if command -v zpm >/dev/null; then
+if (( $+function[zpm] )); then
   zpm sindresorhus/pretty-time-zsh,apply:path,path:/ zpm-zsh/colors
 fi
 
@@ -18,27 +20,26 @@ function _pr_exec_time_ignored(){
   for ignore in $PR_EXEC_TIME_IGNORE; do
     if [[ "$1" == "$ignore "* || "$1" == "$ignore" ]]; then
       echo 1
+
       return 0
     fi
   done
   
   echo 0
+
   return 1
-  
 }
 
 function _pr_exec_time_preexec() {
-
   _pr_exec_time_timer=${_pr_exec_time_timer:-$SECONDS}
   _pr_exec_time_timer_ignore=$(_pr_exec_time_ignored "${1:-$2}")
   _pr_exec_time_command="${1:-$2}"
-
 }
 
 _pr_exec_time() {
-  
   if [ $_pr_exec_time_timer ]; then
     local pr_time_spend=$(($SECONDS - $_pr_exec_time_timer))
+
     if [[ $pr_time_spend -ge $PR_EXEC_TIME_ELAPSED && "$_pr_exec_time_timer_ignore" == "0" ]]; then
       pr_exec_time="$PR_EXEC_TIME_PREFIX%{$c[yellow]$c_bold%}$(pretty-time $pr_time_spend)%{$c_reset%}$PR_EXEC_TIME_SUFFIX"
     else
@@ -46,7 +47,6 @@ _pr_exec_time() {
     fi
     
     if [[ $pr_time_spend -ge $PR_EXEC_TIME_ELAPSED_NOTIFY && "$_pr_exec_time_timer_ignore" == "0" ]]; then
-      
       local title="Completed: $_pr_exec_time_command"
       local body="Total time: $(pretty-time $pr_time_spend)"
       
@@ -59,12 +59,10 @@ _pr_exec_time() {
         -e 'end run' \
         "$body" "$title"
       fi
-      
     fi
     
     unset _pr_exec_time_timer
   fi
-  
 }
 
 preexec_functions+=(_pr_exec_time_preexec)
