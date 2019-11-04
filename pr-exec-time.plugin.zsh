@@ -12,7 +12,7 @@ PR_EXEC_TIME_IGNORE=(
   "top" "htop" "ssh" "nano"
 )
 
-if (( $+function[zpm] )); then
+if (( $+functions[zpm] )); then
   zpm sindresorhus/pretty-time-zsh,apply:path,path:/ zpm-zsh/colors
 fi
 
