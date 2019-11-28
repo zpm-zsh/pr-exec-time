@@ -13,7 +13,7 @@ PR_EXEC_TIME_IGNORE=(
 )
 
 if (( $+functions[zpm] )); then
-  zpm sindresorhus/pretty-time-zsh,fpath:/ zpm-zsh/colors,inline
+  zpm sindresorhus/pretty-time-zsh,fpath:/,async,inline zpm-zsh/colors,inline
 fi
 
 function _pr_exec_time_ignored(){
