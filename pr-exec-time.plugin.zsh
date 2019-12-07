@@ -8,7 +8,7 @@ PR_EXEC_TIME_ELAPSED="${PR_EXEC_TIME_ELAPSED:-5}"
 PR_EXEC_TIME_ELAPSED_NOTIFY="${PR_EXEC_TIME_ELAPSED_NOTIFY:-10}"
 PR_EXEC_TIME_IGNORE=(
   "vim" "nvim" "less" "more" "man"
-  "tig""watch" "git commit" 
+  "tig""watch" "git commit"
   "top" "htop" "ssh" "nano"
 )
 
@@ -20,13 +20,13 @@ function _pr_exec_time_ignored(){
   for ignore in $PR_EXEC_TIME_IGNORE; do
     if [[ "$1" == "$ignore "* || "$1" == "$ignore" ]]; then
       echo 1
-
+      
       return 0
     fi
   done
   
   echo 0
-
+  
   return 1
 }
 
@@ -36,10 +36,14 @@ function _pr_exec_time_preexec() {
   _pr_exec_time_command="${1:-$2}"
 }
 
-_pr_exec_time() {
+function _pr_exec_time() {
+  if [[ -n "$VTE_VERSION" ]]; then
+    printf "\033]777;notify;Command completed;void\007\033]7;file://%s%s\007" "${HOSTNAME:-}" "$(__vte_urlencode "${PWD}")"
+  fi
+  
   if [ $_pr_exec_time_timer ]; then
     local pr_time_spend=$(($SECONDS - $_pr_exec_time_timer))
-
+    
     if [[ $pr_time_spend -ge $PR_EXEC_TIME_ELAPSED && "$_pr_exec_time_timer_ignore" == "0" ]]; then
       pr_exec_time="$PR_EXEC_TIME_PREFIX%{$c[yellow]$c_bold%}$(pretty-time $pr_time_spend)%{$c_reset%}$PR_EXEC_TIME_SUFFIX"
     else
@@ -65,5 +69,9 @@ _pr_exec_time() {
   fi
 }
 
-preexec_functions+=(_pr_exec_time_preexec)
-precmd_functions+=(_pr_exec_time)
+if [[ -n "$VTE_VERSION" ]]; then
+  add-zsh-hook -d precmd  __vte_osc7
+fi
+
+add-zsh-hook preexec _pr_exec_time_preexec
+add-zsh-hook precmd _pr_exec_time
