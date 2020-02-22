@@ -17,6 +17,7 @@ if (( $+functions[zpm] )); then
 fi
 
 function _pr_exec_time_ignored(){
+  local ignore
   for ignore in $PR_EXEC_TIME_IGNORE; do
     if [[ "$1" == "$ignore "* || "$1" == "$ignore" ]]; then
       echo 1
