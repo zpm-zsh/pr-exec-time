@@ -29,6 +29,7 @@ function _pr_exec_time_ignored(){
 }
 
 function _pr_exec_time_preexec() {
+  local _pr_exec_time_timer
   _pr_exec_time_timer=${_pr_exec_time_timer:-$SECONDS}
   _pr_exec_time_timer_ignore=$(_pr_exec_time_ignored "${1:-$2}")
   _pr_exec_time_command="${1:-$2}"
