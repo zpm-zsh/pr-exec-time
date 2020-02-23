@@ -2,10 +2,13 @@
 
 DEPENDENCES_ZSH+=( sindresorhus/pretty-time-zsh zpm-zsh/colors )
 
+typeset -g PR_EXEC_TIME_PREFIX
 PR_EXEC_TIME_PREFIX="${PR_EXEC_TIME_PREFIX:-" "}"
+typeset -g PR_EXEC_TIME_SUFFIX
 PR_EXEC_TIME_SUFFIX="${PR_EXEC_TIME_SUFFIX:-""}"
+typeset -g PR_EXEC_TIME_ELAPSED
 PR_EXEC_TIME_ELAPSED="${PR_EXEC_TIME_ELAPSED:-5}"
-PR_EXEC_TIME_ELAPSED_NOTIFY="${PR_EXEC_TIME_ELAPSED_NOTIFY:-10}"
+typeset -g PR_EXEC_TIME_IGNORE
 PR_EXEC_TIME_IGNORE=(
   "vim" "nvim" "less" "more" "man"
   "tig""watch" "git commit"
@@ -30,13 +33,14 @@ function _pr_exec_time_ignored(){
 }
 
 function _pr_exec_time_preexec() {
-  local _pr_exec_time_timer
-  typeset -g _pr_exec_time_timer=${_pr_exec_time_timer:-$SECONDS}
-  typeset -g _pr_exec_time_timer_ignore=$(_pr_exec_time_ignored "${1:-$2}")
-  # _pr_exec_time_command="${1:-$2}"
+  typeset -g _pr_exec_time_timer
+  _pr_exec_time_timer=${_pr_exec_time_timer:-$SECONDS}
+  typeset -g _pr_exec_time_timer_ignore
+  _pr_exec_time_timer_ignore=$(_pr_exec_time_ignored "${1:-$2}")
 }
 
 function _pr_exec_time() {  
+  typeset -g pr_exec_time
   if [ $_pr_exec_time_timer ]; then
     local pr_time_spend=$(($SECONDS - $_pr_exec_time_timer))
     
