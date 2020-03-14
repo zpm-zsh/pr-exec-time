@@ -1,56 +1,31 @@
 #!/usr/bin/env zsh
 
-DEPENDENCES_ZSH+=( sindresorhus/pretty-time-zsh zpm-zsh/colors )
+typeset -g PR_EXEC_TIME_PREFIX="${PR_EXEC_TIME_PREFIX:-" "}"
+typeset -g PR_EXEC_TIME_SUFFIX="${PR_EXEC_TIME_SUFFIX:-""}"
+typeset -g PR_EXEC_TIME_ELAPSED="${PR_EXEC_TIME_ELAPSED:-5}"
 
-typeset -g PR_EXEC_TIME_PREFIX
-PR_EXEC_TIME_PREFIX="${PR_EXEC_TIME_PREFIX:-" "}"
-typeset -g PR_EXEC_TIME_SUFFIX
-PR_EXEC_TIME_SUFFIX="${PR_EXEC_TIME_SUFFIX:-""}"
-typeset -g PR_EXEC_TIME_ELAPSED
-PR_EXEC_TIME_ELAPSED="${PR_EXEC_TIME_ELAPSED:-5}"
-typeset -g PR_EXEC_TIME_IGNORE
-PR_EXEC_TIME_IGNORE=(
-  "vim" "nvim" "less" "more" "man"
-  "tig""watch" "git commit"
-  "top" "htop" "ssh" "nano"
-)
+typeset -g pr_exec_time
+typeset -g _pr_exec_time_timer
 
 if (( $+functions[zpm] )); then
-  zpm sindresorhus/pretty-time-zsh,fpath:/,async,inline zpm-zsh/colors,inline
+  zpm sindresorhus/pretty-time-zsh,fpath:/,async zpm-zsh/colors
 fi
 
-function _pr_exec_time_ignored(){
-  local ignore
-  for ignore in $PR_EXEC_TIME_IGNORE; do
-    if [[ "$1" == "$ignore "* || "$1" == "$ignore" ]]; then
-      echo 1
-      return 0
-    fi
-  done
-  
-  echo 0
-  return 1
-}
-
 function _pr_exec_time_preexec() {
-  typeset -g _pr_exec_time_timer
   _pr_exec_time_timer=${_pr_exec_time_timer:-$SECONDS}
-  typeset -g _pr_exec_time_timer_ignore
-  _pr_exec_time_timer_ignore=$(_pr_exec_time_ignored "${1:-$2}")
 }
 
-function _pr_exec_time() {  
-  typeset -g pr_exec_time
-  if [ $_pr_exec_time_timer ]; then
+function _pr_exec_time() {
+  if [[ -n $_pr_exec_time_timer ]]; then
     local pr_time_spend=$(($SECONDS - $_pr_exec_time_timer))
-    
-    if [[ $pr_time_spend -ge $PR_EXEC_TIME_ELAPSED && "$_pr_exec_time_timer_ignore" == "0" ]]; then
+
+    if [[ $pr_time_spend -ge $PR_EXEC_TIME_ELAPSED ]]; then
       pr_exec_time="$PR_EXEC_TIME_PREFIX%{$c[yellow]$c_bold%}$(pretty-time $pr_time_spend)%{$c_reset%}$PR_EXEC_TIME_SUFFIX"
     else
       pr_exec_time=''
     fi
-        
-    unset _pr_exec_time_timer
+
+    _pr_exec_time_timer=''
   fi
 }
 
