@@ -1,15 +1,15 @@
 #!/usr/bin/env zsh
 
-typeset -g PR_EXEC_TIME_PREFIX="${PR_EXEC_TIME_PREFIX:-" "}"
-typeset -g PR_EXEC_TIME_SUFFIX="${PR_EXEC_TIME_SUFFIX:-""}"
-typeset -g PR_EXEC_TIME_ELAPSED="${PR_EXEC_TIME_ELAPSED:-5}"
+typeset -g PR_EXEC_TIME_PREFIX=${PR_EXEC_TIME_PREFIX:-" "}
+typeset -g PR_EXEC_TIME_SUFFIX=${PR_EXEC_TIME_SUFFIX:-""}
+typeset -g PR_EXEC_TIME_ELAPSED=${PR_EXEC_TIME_ELAPSED:-5}
 
 typeset -g pr_exec_time
 typeset -g _pr_exec_time_timer
 
-if (( $+functions[zpm] )); then
-  zpm sindresorhus/pretty-time-zsh,fpath:/,async zpm-zsh/colors
-fi
+if (( $+functions[zpm] )); then #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
+  zpm sindresorhus/pretty-time-zsh,fpath:/,async #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
+fi #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
 
 function _pr_exec_time_preexec() {
   _pr_exec_time_timer=${_pr_exec_time_timer:-$SECONDS}
@@ -29,5 +29,6 @@ function _pr_exec_time() {
   fi
 }
 
+autoload -Uz add-zsh-hook
 add-zsh-hook preexec _pr_exec_time_preexec
 add-zsh-hook precmd _pr_exec_time
