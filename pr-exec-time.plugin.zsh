@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
-typeset -g PR_EXEC_TIME_PREFIX=${PR_EXEC_TIME_PREFIX:-" "}
-typeset -g PR_EXEC_TIME_SUFFIX=${PR_EXEC_TIME_SUFFIX:-""}
-typeset -g PR_EXEC_TIME_ELAPSED=${PR_EXEC_TIME_ELAPSED:-5}
+: ${PR_EXEC_TIME_PREFIX:=" "}
+: ${PR_EXEC_TIME_SUFFIX:=""}
+: ${PR_EXEC_TIME_ELAPSED:=5}
 
 typeset -g pr_exec_time
 typeset -g _pr_exec_time_timer
