@@ -8,7 +8,7 @@ typeset -g pr_exec_time
 typeset -g _pr_exec_time_timer
 
 if (( $+functions[zpm] )); then #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
-  zpm load sindresorhus/pretty-time-zsh,fpath:/,async #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
+  zpm load zpm-zsh/pretty-time-zsh #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
 fi #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
 
 function _pr_exec_time_preexec() {
