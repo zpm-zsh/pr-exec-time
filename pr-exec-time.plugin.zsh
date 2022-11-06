@@ -7,9 +7,9 @@
 typeset -g pr_exec_time
 typeset -g _pr_exec_time_timer
 
-if (( $+functions[zpm] )); then #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
-  zpm load zpm-zsh/pretty-time-zsh #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
-fi #DO_NOT_INCLUDE_LINE_IN_ZPM_CACHE
+if (( $+functions[zpm] )); then
+  zpm load zpm-zsh/pretty-time-zsh
+fi
 
 function _pr_exec_time_preexec() {
   _pr_exec_time_timer=${_pr_exec_time_timer:-$SECONDS}
@@ -20,7 +20,7 @@ function _pr_exec_time() {
     local pr_time_spend=$(($SECONDS - $_pr_exec_time_timer))
 
     if [[ $pr_time_spend -ge $PR_EXEC_TIME_ELAPSED ]]; then
-      pr_exec_time="$PR_EXEC_TIME_PREFIX%{${c[yellow]}${c[bold]}%}$(pretty-time $pr_time_spend)%{${c[reset]}%}$PR_EXEC_TIME_SUFFIX"
+      pr_exec_time="$PR_EXEC_TIME_PREFIX%{${c[cyan]}${c[bold]}%}$(pretty-time $pr_time_spend)%{${c[reset]}%}$PR_EXEC_TIME_SUFFIX"
     else
       pr_exec_time=''
     fi
