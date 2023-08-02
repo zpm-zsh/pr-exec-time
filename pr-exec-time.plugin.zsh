@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-: ${PR_EXEC_TIME_PREFIX:=" "}
-: ${PR_EXEC_TIME_SUFFIX:=""}
 : ${PR_EXEC_TIME_ELAPSED:=5}
 
 typeset -g pr_exec_time
@@ -20,7 +18,7 @@ function _pr_exec_time() {
     local pr_time_spend=$(($SECONDS - $_pr_exec_time_timer))
 
     if [[ $pr_time_spend -ge $PR_EXEC_TIME_ELAPSED ]]; then
-      pr_exec_time="$PR_EXEC_TIME_PREFIX%{${c[cyan]}${c[bold]}%}$(pretty-time $pr_time_spend)%{${c[reset]}%}$PR_EXEC_TIME_SUFFIX"
+      pr_exec_time=" %{${c[cyan]}${c[bold]}%}$(pretty-time $pr_time_spend)%{${c[reset]}%}"
     else
       pr_exec_time=''
     fi
